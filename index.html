@@ -592,3 +592,18 @@
         }
     });
 </script>
+<!-- ========================================================= -->
+<!-- תיקון CSS חסין בסוף הקובץ: כפיית הצגת התפריט התחתון -->
+<!-- ========================================================= -->
+<style>
+    #bottom-nav {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 100% !important;
+        max-width: 388px; /* מתאים בדיוק לרוחב הפנימי של המכשיר */
+        border-bottom-left-radius: 28px !important; /* מעגל את הפינות שיתאימו לטלפון */
+        border-bottom-right-radius: 28px !important;
+    }
+</style>
