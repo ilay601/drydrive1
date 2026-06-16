@@ -577,3 +577,18 @@
     </script>
 </body>
 </html>
+                        
+<!-- ========================================================= -->
+<!-- תיקון אוטומטי בסוף הקובץ: החזרת התפריט התחתון למקומו -->
+<!-- ========================================================= -->
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const appWrapper = document.getElementById('app-wrapper');
+        const bottomNav = document.getElementById('bottom-nav');
+        
+        // אם שני האלמנטים קיימים, נחזיר את התפריט אל תוך שלד האפליקציה
+        if (appWrapper && bottomNav) {
+            appWrapper.appendChild(bottomNav);
+        }
+    });
+</script>
