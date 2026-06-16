@@ -607,3 +607,52 @@
         border-bottom-right-radius: 28px !important;
     }
 </style>
+<!-- ========================================================= -->
+<!-- תיקון סופי חסין: הזרקת תפריט תחתון עצמאי ומאבטח מסכים -->
+<!-- ========================================================= -->
+<nav id="fixed-bottom-nav">
+    <button class="fixed-nav-item fixed-active" onclick="triggerFixedNav('screen-welcome', this)"><i class="fa-solid fa-house"></i><span>ראשי</span></button>
+    <button class="fixed-nav-item" onclick="triggerFixedNav('screen-results', this)"><i class="fa-solid fa-shower"></i><span>מקלחות</span></button>
+    <button class="fixed-nav-item" onclick="triggerFixedNav('screen-host', this)"><i class="fa-solid fa-house-medical"></i><span>להיות מארח</span></button>
+</nav>
+
+<style>
+    /* העלמת התפריט הישן שנשבר */
+    #bottom-nav { display: none !important; }
+    
+    /* עיצוב תפריט חדש, צף וחסין שגיאות בדיוק מעל תחתית המכשיר */
+    #fixed-bottom-nav {
+        position: fixed !important; bottom: 12px !important; left: 50% !important;
+        transform: translateX(-50%) !important; width: calc(100% - 24px) !important;
+        max-width: 364px; height: 68px; background-color: rgba(25, 32, 51, 0.95) !important;
+        backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px; display: flex !important; justify-content: space-around;
+        align-items: center; z-index: 99999 !important; box-shadow: 0 -10px 25px rgba(0,0,0,0.5);
+    }
+    .fixed-nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #64748b; cursor: pointer; font-size: 0.78rem; font-weight: 600; flex-grow: 1; }
+    .fixed-nav-item.fixed-active { color: #38bdf8 !important; }
+    .fixed-nav-item i { font-size: 1.25rem; }
+</style>
+
+<script>
+    // פונקציית ניווט חסינת חסימות שמאלצת את המסכים להתחלף
+    function triggerFixedNav(screenId, btnElement) {
+        // העלמת כל המסכים באפליקציה באשר הם
+        const screens = document.querySelectorAll('.app-screen');
+        if (screens.length > 0) {
+            screens.forEach(s => s.classList.add('hidden'));
+        }
+        
+        // הצגת המסך המבוקש ישירות לפי ה-ID שלו
+        const targetScreen = document.getElementById(screenId);
+        if (targetScreen) {
+            targetScreen.classList.remove('hidden');
+        }
+        
+        // עדכון עיצוב כפתור פעיל
+        document.querySelectorAll('.fixed-nav-item').forEach(item => item.classList.remove('fixed-active'));
+        if (btnElement) {
+            btnElement.classList.add('fixed-active');
+        }
+    }
+</script>
