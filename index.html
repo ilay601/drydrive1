@@ -687,29 +687,34 @@
             lat: currentCapturedLat || 32.0827,
             lng: currentCapturedLng || 34.7674,
             features: amenities.length > 0 ? amenities : ["מקלחת נקייה"]
-        };
-
         try {
+            // פנייה לכתובת השרת האמיתית והמאומתת שלך ברנדר
             const response = await fetch("https://onrender.com", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newShower)
             });
-
+            
             const result = await response.json();
+            
             if (result.success) {
                 alert("🎉 התחנה פורסמה בהצלחה בענן של Render ופתוחה לכולם!");
                 
                 // איפוס מהיר של הטופס
-                document.getElementById('h-name').value = ""; document.getElementById('h-city').value = "";
-                document.getElementById('h-address').value = ""; document.getElementById('h-price').value = "";
+                document.getElementById('h-name').value = "";
+                document.getElementById('h-city').value = "";
+                document.getElementById('h-address').value = "";
+                document.getElementById('h-price').value = "";
                 document.querySelectorAll('.amenity').forEach(b => b.checked = false);
                 currentCapturedLat = null; currentCapturedLng = null;
                 
                 navigateToScreen('screen-welcome');
             }
         } catch (error) {
+            console.error(error);
             alert("❌ תקלה: השרת ב-Render לא קלט את הפרסום.");
         }
     }
-</style>
+</script>
+</body>
+</html>
