@@ -656,3 +656,60 @@
         }
     }
 </script>
+<!-- ========================================================= -->
+<!-- תיקון נקודתי: חיווט כפתור הפרסום הירוק ישירות לשרת הענן -->
+<!-- ========================================================= -->
+<script>
+    // דריסת פונקציית הפרסום הישנה כדי שתגיש נכסים לשרת האמיתי
+    async function publishStation() {
+        const name = document.getElementById('h-name').value.trim();
+        const gender = document.getElementById('h-gender').value;
+        const beach = document.getElementById('h-beach').value;
+        const city = document.getElementById('h-city').value.trim();
+        const address = document.getElementById('h-address').value.trim();
+        const price = document.getElementById('h-price').value.trim();
+
+        if (!name || !city || !address || !price) {
+            alert("⚠️ נא למלא את כל השדות כדי לפרסם את המקלחת!");
+            return;
+        }
+
+        const amenities = Array.from(document.querySelectorAll('.amenity:checked')).map(b => b.value);
+
+        const newShower = {
+            beachId: beach,
+            id: Date.now(),
+            hostName: name,
+            hostGender: gender,
+            hostCity: city,
+            hostAddress: address,
+            price: price,
+            lat: currentCapturedLat || 32.0827,
+            lng: currentCapturedLng || 34.7674,
+            features: amenities.length > 0 ? amenities : ["מקלחת נקייה"]
+        };
+
+        try {
+            const response = await fetch("https://onrender.com", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newShower)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert("🎉 התחנה פורסמה בהצלחה בענן של Render ופתוחה לכולם!");
+                
+                // איפוס מהיר של הטופס
+                document.getElementById('h-name').value = ""; document.getElementById('h-city').value = "";
+                document.getElementById('h-address').value = ""; document.getElementById('h-price').value = "";
+                document.querySelectorAll('.amenity').forEach(b => b.checked = false);
+                currentCapturedLat = null; currentCapturedLng = null;
+                
+                navigateToScreen('screen-welcome');
+            }
+        } catch (error) {
+            alert("❌ תקלה: השרת ב-Render לא קלט את הפרסום.");
+        }
+    }
+</style>
